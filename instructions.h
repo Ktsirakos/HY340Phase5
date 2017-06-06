@@ -400,10 +400,10 @@ void generate_GETRETVAL         (quad* q){
     Instruction *temp = initialize_Instruction();
     q->taddress = currInst;
     temp->opcode  = assign_v;
-    make_operand(q->arg1,temp->result);
+    make_operand(q->arg1,temp->arg1);
     temp->srcLine = currInst;
     temp->label = q->label;
-    temp->arg1->type = retval_a;
+    temp->result->type = retval_a;
     emit_instruction(temp);
     currProsQuad++;
 }

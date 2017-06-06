@@ -9,10 +9,12 @@ void avm_assign (avm_memcell* lv , avm_memcell* rv){
        rv->type == table_m &&
        lv->data.tableVal == rv->data.tableVal) return;
 
+    printf("PC: %d\t" , pc);
     if(rv->type == undef_m) {
         avm_warning("assigning from undef content!");
     }
 
+    printf("\n");
     avm_memcellclear(lv);
 
     memcpy(lv , rv , sizeof(avm_memcell));

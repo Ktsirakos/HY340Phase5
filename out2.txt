@@ -1,0 +1,568 @@
+./al test.alpha
+print with type 3
+callsufix IsEven 0
+IsEven with type 2
+callsufix IsEven 0
+IsEven with type 2
+print with type 3
+callsufix IsOdd 0
+IsOdd with type 2
+print with type 3
+IsEven with type 2
+IsOdd with type 2
+CanDivideByTen with type 2
+print with type 3
+print with type 3
+print with type 3
+Print with type 2
+  1: assign      	"\n"		nl	
+  2: assign      	nl		_t0	
+  3: functstart  	Assert			
+  4: not         	con		_t1	
+  5: if_eq       	_t1	true		7
+  6: jump        				11
+  7: param       	nl			
+  8: param       	"Assertion"			
+  9: call        	print			
+ 10: getretval   	_t2			
+ 11: funcend     	Assert			
+ 12: functstart  	IsEven			
+ 13: mod         	num	2	_t3	
+ 14: if_eq       	_t3	0	_t4	16
+ 15: jump        				18
+ 16: ret_code    	_t4			
+ 17: funcend     	IsEven			
+ 18: functstart  	IsOdd			
+ 19: param       	num			
+ 20: call        	IsEven			
+ 21: getretval   	_t5			
+ 22: not         	_t5		_t6	
+ 23: ret_code    	_t6			
+ 24: funcend     	IsOdd			
+ 25: functstart  	CanDivideByTen			
+ 26: mod         	num	10	_t7	
+ 27: ret_code    	_t7			
+ 28: funcend     	CanDivideByTen			
+ 29: functstart  	PrintParityOfNumbers			
+ 30: assign      	true		true	
+ 31: jump        				33
+ 32: assign      	false		true	
+ 33: assign      	true		exit	
+ 34: assign      	exit		_t8	
+ 35: assign      	0		i	
+ 36: assign      	i		_t9	
+ 37: add         	MAX	1	_t10	
+ 38: if_less     	i	_t10	_t11	40
+ 39: jump        				42
+ 40: assign      	true		_t11	
+ 41: jump        				43
+ 42: assign      	false		_t11	
+ 43: if_eq       	_t11	true		48
+ 44: jump        				74
+ 45: add         	i	1.000000	i	
+ 46: assign      	i		_t12	
+ 47: jump        				37
+ 48: param       	i			
+ 49: call        	IsEven			
+ 50: getretval   	_t13			
+ 51: if_eq       	_t13	true		53
+ 52: jump        				59
+ 53: param       	nl			
+ 54: param       	" is evan"			
+ 55: param       	i			
+ 56: call        	print			
+ 57: getretval   	_t14			
+ 58: jump        				73
+ 59: param       	i			
+ 60: call        	IsOdd			
+ 61: getretval   	_t15			
+ 62: if_eq       	_t15	true		64
+ 63: jump        				70
+ 64: param       	nl			
+ 65: param       	" is odd"			
+ 66: param       	i			
+ 67: call        	print			
+ 68: getretval   	_t16			
+ 69: jump        				73
+ 70: assign      	false		exit	
+ 71: assign      	exit		_t17	
+ 72: jump        				74
+ 73: jump        				45
+ 74: ret_code    	exit			
+ 75: funcend     	PrintParityOfNumbers			
+ 76: assign      	0		even	
+ 77: assign      	even		_t18	
+ 78: assign      	1		odd	
+ 79: assign      	odd		_t19	
+ 80: assign      	0		cnt	
+ 81: assign      	cnt		_t20	
+ 82: param       	even			
+ 83: call        	IsEven			
+ 84: getretval   	_t21			
+ 85: param       	odd			
+ 86: call        	IsOdd			
+ 87: getretval   	_t22			
+ 88: if_eq       	_t21	true		87
+ 89: jump        				92
+ 90: if_eq       	_t22	true		97
+ 91: jump        				92
+ 92: param       	10			
+ 93: call        	CanDivideByTen			
+ 94: getretval   	_t24			
+ 95: if_eq       	_t24	true		97
+ 96: jump        				99
+ 97: assign      	true		_t25	
+ 98: jump        				100
+ 99: assign      	false		_t25	
+100: if_eq       	_t25	true		103
+101: jump        				125
+102: jump        				82
+103: if_eq       	cnt	10	_t26	105
+104: jump        				107
+105: assign      	true		_t26	
+106: jump        				108
+107: assign      	false		_t26	
+108: if_eq       	_t26	true		110
+109: jump        				111
+110: jump        				125
+111: if_eq       	cnt	0	_t27	113
+112: jump        				115
+113: assign      	true		_t27	
+114: jump        				116
+115: assign      	false		_t27	
+116: if_eq       	_t27	true		118
+117: jump        				124
+118: assign      	1		even	
+119: assign      	even		_t28	
+120: assign      	0		odd	
+121: assign      	odd		_t29	
+122: assign      	10		cnt	
+123: assign      	cnt		_t30	
+124: jump        				102
+125: functstart  	Print			
+126: param       	nl			
+127: param       	cnt			
+128: param       	"cnt\t: "			
+129: call        	print			
+130: getretval   	_t31			
+131: param       	nl			
+132: param       	even			
+133: param       	"even\t: "			
+134: call        	print			
+135: getretval   	_t32			
+136: param       	nl			
+137: param       	odd			
+138: param       	"odd\t: "			
+139: call        	print			
+140: getretval   	_t33			
+141: funcend     	Print			
+142: call        	Print			
+143: getretval   	_t34			
+144: program_end				
+0:	assign_v(0)	1(12)	5(0)	0(-1)	-2
+1:	assign_v(0)	1(13)	1(12)	0(-1)	-2
+2:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+3:	funcenter_v(18)	8(0)	0(0)	0(0)	-2
+4:	jeq_v(10)	0(0)	3(0)	6(1)	-2
+5:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+6:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+7:	pusharg_v(17)	0(0)	5(1)	0(0)	-2
+8:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+9:	assign_v(0)	3(1)	10(0)	0(0)	-2
+10:	funcexit_v(19)	8(0)	0(0)	0(0)	-2
+11:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+12:	funcenter_v(18)	8(1)	0(0)	0(0)	-2
+13:	mod_v(5)	3(0)	2(0)	4(0)	-2
+14:	jeq_v(10)	0(0)	3(0)	4(1)	-2
+15:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+Checkpoint _1
+Checkpoint _2
+Checkpoint _3
+16:	assign_v(0)	10(0)	3(1)	0(0)	-2
+17:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+18:	funcexit_v(19)	8(1)	0(0)	0(0)	-2
+19:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+20:	funcenter_v(18)	8(2)	0(0)	0(0)	-2
+21:	pusharg_v(17)	0(0)	2(0)	0(0)	-2
+22:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+23:	assign_v(0)	3(0)	10(0)	0(0)	-2
+Checkpoint _1
+Checkpoint _2
+Checkpoint _3
+24:	assign_v(0)	10(0)	3(1)	0(0)	-2
+25:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+26:	funcexit_v(19)	8(2)	0(0)	0(0)	-2
+27:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+28:	funcenter_v(18)	8(3)	0(0)	0(0)	-2
+29:	mod_v(5)	3(0)	2(0)	4(2)	-2
+Checkpoint _1
+Checkpoint _2
+Checkpoint _3
+30:	assign_v(0)	10(0)	3(0)	0(0)	-2
+31:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+32:	funcexit_v(19)	8(3)	0(0)	0(0)	-2
+33:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+34:	funcenter_v(18)	8(4)	0(0)	0(0)	-2
+35:	assign_v(0)	6(1)	6(1)	0(-1)	-2
+36:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+37:	assign_v(0)	6(1)	6(0)	0(-1)	-2
+38:	assign_v(0)	3(0)	6(1)	0(-1)	-2
+39:	assign_v(0)	3(1)	3(0)	0(-1)	-2
+40:	assign_v(0)	3(2)	4(1)	0(-1)	-2
+41:	assign_v(0)	3(3)	3(2)	0(-1)	-2
+42:	add_v(1)	3(4)	2(0)	4(3)	-2
+43:	jlt_v(14)	0(0)	3(2)	3(4)	-2
+44:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+45:	assign_v(0)	3(5)	6(1)	0(-1)	-2
+46:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+47:	assign_v(0)	3(5)	6(0)	0(-1)	-2
+48:	jeq_v(10)	0(0)	3(5)	6(1)	-2
+49:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+50:	add_v(1)	3(2)	3(2)	4(3)	-2
+51:	assign_v(0)	3(6)	3(2)	0(-1)	-2
+52:	jump_v(24)	0(42)	0(-1)	0(-1)	-2
+53:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+54:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+55:	assign_v(0)	3(7)	10(0)	0(0)	-2
+56:	jeq_v(10)	0(0)	3(7)	6(1)	-2
+57:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+58:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+59:	pusharg_v(17)	0(0)	5(2)	0(0)	-2
+60:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+61:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+62:	assign_v(0)	3(8)	10(0)	0(0)	-2
+63:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+64:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+65:	call_v(16)	0(-1)	8(2)	0(-1)	-2
+66:	assign_v(0)	3(9)	10(0)	0(0)	-2
+67:	jeq_v(10)	0(0)	3(9)	6(1)	-2
+68:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+69:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+70:	pusharg_v(17)	0(0)	5(3)	0(0)	-2
+71:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+72:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+73:	assign_v(0)	3(10)	10(0)	0(0)	-2
+74:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+75:	assign_v(0)	3(0)	6(0)	0(-1)	-2
+76:	assign_v(0)	3(11)	3(0)	0(-1)	-2
+77:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+78:	jump_v(24)	0(50)	0(-1)	0(-1)	-2
+Checkpoint _1
+Checkpoint _2
+Checkpoint _3
+79:	assign_v(0)	10(0)	3(0)	0(0)	-2
+80:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+81:	funcexit_v(19)	8(4)	0(0)	0(0)	-2
+82:	assign_v(0)	1(19)	4(1)	0(-1)	-2
+83:	assign_v(0)	1(20)	1(19)	0(-1)	-2
+84:	assign_v(0)	1(21)	4(3)	0(-1)	-2
+85:	assign_v(0)	1(22)	1(21)	0(-1)	-2
+86:	assign_v(0)	1(23)	4(1)	0(-1)	-2
+87:	assign_v(0)	1(24)	1(23)	0(-1)	-2
+88:	pusharg_v(17)	0(0)	1(19)	0(0)	-2
+89:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+90:	assign_v(0)	1(25)	10(0)	0(0)	-2
+91:	pusharg_v(17)	0(0)	1(21)	0(0)	-2
+92:	call_v(16)	0(-1)	8(2)	0(-1)	-2
+93:	assign_v(0)	1(26)	10(0)	0(0)	-2
+94:	jeq_v(10)	0(0)	1(25)	6(1)	-2
+95:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+96:	jeq_v(10)	0(0)	1(26)	6(1)	-2
+97:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+98:	pusharg_v(17)	0(0)	4(2)	0(0)	-2
+99:	call_v(16)	0(-1)	8(3)	0(-1)	-2
+100:	assign_v(0)	1(28)	10(0)	0(0)	-2
+101:	jeq_v(10)	0(0)	1(28)	6(1)	-2
+102:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+103:	assign_v(0)	1(29)	6(1)	0(-1)	-2
+104:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+105:	assign_v(0)	1(29)	6(0)	0(-1)	-2
+106:	jeq_v(10)	0(0)	1(29)	6(1)	-2
+107:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+108:	jump_v(24)	0(88)	0(-1)	0(-1)	-2
+109:	jeq_v(10)	0(0)	1(23)	4(2)	-2
+110:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+111:	assign_v(0)	1(30)	6(1)	0(-1)	-2
+112:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+113:	assign_v(0)	1(30)	6(0)	0(-1)	-2
+114:	jeq_v(10)	0(0)	1(30)	6(1)	-2
+115:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+116:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+117:	jeq_v(10)	0(0)	1(23)	4(1)	-2
+118:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+119:	assign_v(0)	1(31)	6(1)	0(-1)	-2
+120:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+121:	assign_v(0)	1(31)	6(0)	0(-1)	-2
+122:	jeq_v(10)	0(0)	1(31)	6(1)	-2
+123:	jump_v(24)	0(0)	0(-1)	0(-1)	-2
+124:	assign_v(0)	1(19)	4(3)	0(-1)	-2
+125:	assign_v(0)	1(32)	1(19)	0(-1)	-2
+126:	assign_v(0)	1(21)	4(1)	0(-1)	-2
+127:	assign_v(0)	1(33)	1(21)	0(-1)	-2
+128:	assign_v(0)	1(23)	4(2)	0(-1)	-2
+129:	assign_v(0)	1(34)	1(23)	0(-1)	-2
+130:	jump_v(24)	0(108)	0(-1)	0(-1)	-2
+131:	jump_v(24)	11(0)	0(-1)	0(-1)	-2
+132:	funcenter_v(18)	8(5)	0(0)	0(0)	-2
+133:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+134:	pusharg_v(17)	0(0)	1(23)	0(0)	-2
+135:	pusharg_v(17)	0(0)	5(4)	0(0)	-2
+136:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+137:	assign_v(0)	3(0)	10(0)	0(0)	-2
+138:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+139:	pusharg_v(17)	0(0)	1(19)	0(0)	-2
+140:	pusharg_v(17)	0(0)	5(5)	0(0)	-2
+141:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+142:	assign_v(0)	3(1)	10(0)	0(0)	-2
+143:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+144:	pusharg_v(17)	0(0)	1(21)	0(0)	-2
+145:	pusharg_v(17)	0(0)	5(6)	0(0)	-2
+146:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+147:	assign_v(0)	3(2)	10(0)	0(0)	-2
+148:	funcexit_v(19)	8(5)	0(0)	0(0)	-2
+149:	call_v(16)	0(-1)	8(5)	0(-1)	-2
+150:	assign_v(0)	1(36)	10(0)	0(0)	-2
+151:	nop_v(23)	0(0)	0(0)	0(0)	-2
+----------------------------------------------------------------------------------
+Line	Inst		result	arg1	arg2	label
+0:	assign_v(0)	1(12)	5(0)	0(-1)	-2
+1:	assign_v(0)	1(13)	1(12)	0(-1)	-2
+2:	jump_v(24)	11(11)	0(-1)	0(-1)	-2
+3:	funcenter_v(18)	8(0)	0(0)	0(0)	-2
+4:	jeq_v(10)	0(6)	3(0)	6(1)	-2
+5:	jump_v(24)	0(10)	0(-1)	0(-1)	-2
+6:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+7:	pusharg_v(17)	0(0)	5(1)	0(0)	-2
+8:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+9:	assign_v(0)	3(1)	10(0)	0(0)	-2
+10:	funcexit_v(19)	8(0)	0(0)	0(0)	-2
+11:	jump_v(24)	11(19)	0(-1)	0(-1)	-2
+12:	funcenter_v(18)	8(1)	0(0)	0(0)	-2
+13:	mod_v(5)	3(0)	2(0)	4(0)	-2
+14:	jeq_v(10)	0(16)	3(0)	4(1)	-2
+15:	jump_v(24)	0(19)	0(-1)	0(-1)	-2
+16:	assign_v(0)	10(0)	3(1)	0(0)	-2
+17:	jump_v(24)	0(18)	0(-1)	0(-1)	-2
+18:	funcexit_v(19)	8(1)	0(0)	0(0)	-2
+19:	jump_v(24)	11(27)	0(-1)	0(-1)	-2
+20:	funcenter_v(18)	8(2)	0(0)	0(0)	-2
+21:	pusharg_v(17)	0(0)	2(0)	0(0)	-2
+22:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+23:	assign_v(0)	3(0)	10(0)	0(0)	-2
+24:	assign_v(0)	10(0)	3(1)	0(0)	-2
+25:	jump_v(24)	0(26)	0(-1)	0(-1)	-2
+26:	funcexit_v(19)	8(2)	0(0)	0(0)	-2
+27:	jump_v(24)	11(33)	0(-1)	0(-1)	-2
+28:	funcenter_v(18)	8(3)	0(0)	0(0)	-2
+29:	mod_v(5)	3(0)	2(0)	4(2)	-2
+30:	assign_v(0)	10(0)	3(0)	0(0)	-2
+31:	jump_v(24)	0(32)	0(-1)	0(-1)	-2
+32:	funcexit_v(19)	8(3)	0(0)	0(0)	-2
+33:	jump_v(24)	11(82)	0(-1)	0(-1)	-2
+34:	funcenter_v(18)	8(4)	0(0)	0(0)	-2
+35:	assign_v(0)	6(1)	6(1)	0(-1)	-2
+36:	jump_v(24)	0(38)	0(-1)	0(-1)	-2
+37:	assign_v(0)	6(1)	6(0)	0(-1)	-2
+38:	assign_v(0)	3(0)	6(1)	0(-1)	-2
+39:	assign_v(0)	3(1)	3(0)	0(-1)	-2
+40:	assign_v(0)	3(2)	4(1)	0(-1)	-2
+41:	assign_v(0)	3(3)	3(2)	0(-1)	-2
+42:	add_v(1)	3(4)	2(0)	4(3)	-2
+43:	jlt_v(14)	0(45)	3(2)	3(4)	-2
+44:	jump_v(24)	0(47)	0(-1)	0(-1)	-2
+45:	assign_v(0)	3(5)	6(1)	0(-1)	-2
+46:	jump_v(24)	0(48)	0(-1)	0(-1)	-2
+47:	assign_v(0)	3(5)	6(0)	0(-1)	-2
+48:	jeq_v(10)	0(53)	3(5)	6(1)	-2
+49:	jump_v(24)	0(79)	0(-1)	0(-1)	-2
+50:	add_v(1)	3(2)	3(2)	4(3)	-2
+51:	assign_v(0)	3(6)	3(2)	0(-1)	-2
+52:	jump_v(24)	0(42)	0(-1)	0(-1)	-2
+53:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+54:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+55:	assign_v(0)	3(7)	10(0)	0(0)	-2
+56:	jeq_v(10)	0(58)	3(7)	6(1)	-2
+57:	jump_v(24)	0(64)	0(-1)	0(-1)	-2
+58:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+59:	pusharg_v(17)	0(0)	5(2)	0(0)	-2
+60:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+61:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+62:	assign_v(0)	3(8)	10(0)	0(0)	-2
+63:	jump_v(24)	0(78)	0(-1)	0(-1)	-2
+64:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+65:	call_v(16)	0(-1)	8(2)	0(-1)	-2
+66:	assign_v(0)	3(9)	10(0)	0(0)	-2
+67:	jeq_v(10)	0(69)	3(9)	6(1)	-2
+68:	jump_v(24)	0(75)	0(-1)	0(-1)	-2
+69:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+70:	pusharg_v(17)	0(0)	5(3)	0(0)	-2
+71:	pusharg_v(17)	0(0)	3(2)	0(0)	-2
+72:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+73:	assign_v(0)	3(10)	10(0)	0(0)	-2
+74:	jump_v(24)	0(78)	0(-1)	0(-1)	-2
+75:	assign_v(0)	3(0)	6(0)	0(-1)	-2
+76:	assign_v(0)	3(11)	3(0)	0(-1)	-2
+77:	jump_v(24)	0(79)	0(-1)	0(-1)	-2
+78:	jump_v(24)	0(50)	0(-1)	0(-1)	-2
+79:	assign_v(0)	10(0)	3(0)	0(0)	-2
+80:	jump_v(24)	0(81)	0(-1)	0(-1)	-2
+81:	funcexit_v(19)	8(4)	0(0)	0(0)	-2
+82:	assign_v(0)	1(19)	4(1)	0(-1)	-2
+83:	assign_v(0)	1(20)	1(19)	0(-1)	-2
+84:	assign_v(0)	1(21)	4(3)	0(-1)	-2
+85:	assign_v(0)	1(22)	1(21)	0(-1)	-2
+86:	assign_v(0)	1(23)	4(1)	0(-1)	-2
+87:	assign_v(0)	1(24)	1(23)	0(-1)	-2
+88:	pusharg_v(17)	0(0)	1(19)	0(0)	-2
+89:	call_v(16)	0(-1)	8(1)	0(-1)	-2
+90:	assign_v(0)	1(25)	10(0)	0(0)	-2
+91:	pusharg_v(17)	0(0)	1(21)	0(0)	-2
+92:	call_v(16)	0(-1)	8(2)	0(-1)	-2
+93:	assign_v(0)	1(26)	10(0)	0(0)	-2
+94:	jeq_v(10)	0(93)	1(25)	6(1)	-2
+95:	jump_v(24)	0(98)	0(-1)	0(-1)	-2
+96:	jeq_v(10)	0(103)	1(26)	6(1)	-2
+97:	jump_v(24)	0(98)	0(-1)	0(-1)	-2
+98:	pusharg_v(17)	0(0)	4(2)	0(0)	-2
+99:	call_v(16)	0(-1)	8(3)	0(-1)	-2
+100:	assign_v(0)	1(28)	10(0)	0(0)	-2
+101:	jeq_v(10)	0(103)	1(28)	6(1)	-2
+102:	jump_v(24)	0(105)	0(-1)	0(-1)	-2
+103:	assign_v(0)	1(29)	6(1)	0(-1)	-2
+104:	jump_v(24)	0(106)	0(-1)	0(-1)	-2
+105:	assign_v(0)	1(29)	6(0)	0(-1)	-2
+106:	jeq_v(10)	0(109)	1(29)	6(1)	-2
+107:	jump_v(24)	0(131)	0(-1)	0(-1)	-2
+108:	jump_v(24)	0(88)	0(-1)	0(-1)	-2
+109:	jeq_v(10)	0(111)	1(23)	4(2)	-2
+110:	jump_v(24)	0(113)	0(-1)	0(-1)	-2
+111:	assign_v(0)	1(30)	6(1)	0(-1)	-2
+112:	jump_v(24)	0(114)	0(-1)	0(-1)	-2
+113:	assign_v(0)	1(30)	6(0)	0(-1)	-2
+114:	jeq_v(10)	0(116)	1(30)	6(1)	-2
+115:	jump_v(24)	0(117)	0(-1)	0(-1)	-2
+116:	jump_v(24)	0(131)	0(-1)	0(-1)	-2
+117:	jeq_v(10)	0(119)	1(23)	4(1)	-2
+118:	jump_v(24)	0(121)	0(-1)	0(-1)	-2
+119:	assign_v(0)	1(31)	6(1)	0(-1)	-2
+120:	jump_v(24)	0(122)	0(-1)	0(-1)	-2
+121:	assign_v(0)	1(31)	6(0)	0(-1)	-2
+122:	jeq_v(10)	0(124)	1(31)	6(1)	-2
+123:	jump_v(24)	0(130)	0(-1)	0(-1)	-2
+124:	assign_v(0)	1(19)	4(3)	0(-1)	-2
+125:	assign_v(0)	1(32)	1(19)	0(-1)	-2
+126:	assign_v(0)	1(21)	4(1)	0(-1)	-2
+127:	assign_v(0)	1(33)	1(21)	0(-1)	-2
+128:	assign_v(0)	1(23)	4(2)	0(-1)	-2
+129:	assign_v(0)	1(34)	1(23)	0(-1)	-2
+130:	jump_v(24)	0(108)	0(-1)	0(-1)	-2
+131:	jump_v(24)	11(149)	0(-1)	0(-1)	-2
+132:	funcenter_v(18)	8(5)	0(0)	0(0)	-2
+133:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+134:	pusharg_v(17)	0(0)	1(23)	0(0)	-2
+135:	pusharg_v(17)	0(0)	5(4)	0(0)	-2
+136:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+137:	assign_v(0)	3(0)	10(0)	0(0)	-2
+138:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+139:	pusharg_v(17)	0(0)	1(19)	0(0)	-2
+140:	pusharg_v(17)	0(0)	5(5)	0(0)	-2
+141:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+142:	assign_v(0)	3(1)	10(0)	0(0)	-2
+143:	pusharg_v(17)	0(0)	1(12)	0(0)	-2
+144:	pusharg_v(17)	0(0)	1(21)	0(0)	-2
+145:	pusharg_v(17)	0(0)	5(6)	0(0)	-2
+146:	call_v(16)	0(-1)	9(0)	0(-1)	-2
+147:	assign_v(0)	3(2)	10(0)	0(0)	-2
+148:	funcexit_v(19)	8(5)	0(0)	0(0)	-2
+149:	call_v(16)	0(-1)	8(5)	0(-1)	-2
+150:	assign_v(0)	1(36)	10(0)	0(0)	-2
+151:	nop_v(23)	0(0)	0(0)	0(0)	-2
+HIDE		|LINE		|SCOPE		|TYPE					|NAME
+[32m---------------------------------------------------------------------------------------------------
+[0mVisibled	|56		|0		|Global Variable    			|odd 	  Scope space: 0 , Offset: 21
+Visibled	|0		|0		|Library Function   			|objectcopy 	  Scope space: 0 , Offset: 4
+Visibled	|31		|0		|Programmer Function			|IsOdd 	  Scope space: 0 , Offset: 16
+Visibled	|66		|0		|Programmer Function			|Print 	  Scope space: 0 , Offset: 35
+Hided   	|22		|1		|Argument           			|con 	  Scope space: 1 , Offset: 0
+Visibled	|0		|0		|Library Function   			|sin 	  Scope space: 0 , Offset: 11
+Visibled	|0		|0		|Library Function   			|strtonum 	  Scope space: 0 , Offset: 8
+Visibled	|0		|0		|Library Function   			|typeof 	  Scope space: 0 , Offset: 7
+Visibled	|0		|0		|Library Function   			|cos 	  Scope space: 0 , Offset: 10
+Hided   	|42		|1		|Local Variable     			|_t10 	  Scope space: 2 , Offset: 4
+Visibled	|56		|0		|Global Variable    			|cnt 	  Scope space: 0 , Offset: 23
+Visibled	|56		|0		|Global Variable    			|_t20 	  Scope space: 0 , Offset: 24
+Hided   	|42		|1		|Local Variable     			|_t11 	  Scope space: 2 , Offset: 5
+Visibled	|20		|0		|Global Variable    			|_t0 	  Scope space: 0 , Offset: 13
+Hided   	|27		|1		|Argument           			|num 	  Scope space: 1 , Offset: 0
+Hided   	|31		|1		|Argument           			|num 	  Scope space: 1 , Offset: 0
+Hided   	|35		|1		|Argument           			|num 	  Scope space: 1 , Offset: 0
+Hided   	|39		|1		|Argument           			|MAX 	  Scope space: 1 , Offset: 0
+Visibled	|62		|0		|Global Variable    			|_t30 	  Scope space: 0 , Offset: 34
+Visibled	|56		|0		|Global Variable    			|_t21 	  Scope space: 0 , Offset: 25
+Hided   	|23		|1		|Local Variable     			|_t1 	  Scope space: 2 , Offset: 0
+Hided   	|42		|1		|Local Variable     			|_t12 	  Scope space: 2 , Offset: 6
+Visibled	|0		|0		|Library Function   			|print 	  Scope space: 0 , Offset: 0
+Hided   	|67		|1		|Local Variable     			|_t31 	  Scope space: 2 , Offset: 0
+Hided   	|24		|1		|Local Variable     			|_t2 	  Scope space: 2 , Offset: 1
+Visibled	|56		|0		|Global Variable    			|_t22 	  Scope space: 0 , Offset: 26
+Hided   	|43		|1		|Local Variable     			|_t13 	  Scope space: 2 , Offset: 7
+Hided   	|28		|1		|Local Variable     			|_t3 	  Scope space: 2 , Offset: 0
+Visibled	|56		|0		|Global Variable    			|even 	  Scope space: 0 , Offset: 19
+Hided   	|68		|1		|Local Variable     			|_t32 	  Scope space: 2 , Offset: 1
+Visibled	|56		|0		|Global Variable    			|_t23 	  Scope space: 0 , Offset: 27
+Hided   	|44		|1		|Local Variable     			|_t14 	  Scope space: 2 , Offset: 8
+Hided   	|28		|1		|Local Variable     			|_t4 	  Scope space: 2 , Offset: 1
+Hided   	|69		|1		|Local Variable     			|_t33 	  Scope space: 2 , Offset: 2
+Visibled	|56		|0		|Global Variable    			|_t24 	  Scope space: 0 , Offset: 28
+Hided   	|32		|1		|Local Variable     			|_t5 	  Scope space: 2 , Offset: 0
+Hided   	|45		|1		|Local Variable     			|_t15 	  Scope space: 2 , Offset: 9
+Visibled	|72		|0		|Global Variable    			|_t34 	  Scope space: 0 , Offset: 36
+Hided   	|32		|1		|Local Variable     			|_t6 	  Scope space: 2 , Offset: 1
+Visibled	|56		|0		|Global Variable    			|_t25 	  Scope space: 0 , Offset: 29
+Hided   	|46		|1		|Local Variable     			|_t16 	  Scope space: 2 , Offset: 10
+Visibled	|0		|0		|Library Function   			|objectmemberkeys 	  Scope space: 0 , Offset: 2
+Hided   	|36		|1		|Local Variable     			|_t7 	  Scope space: 2 , Offset: 0
+Visibled	|57		|0		|Global Variable    			|_t26 	  Scope space: 0 , Offset: 30
+Hided   	|48		|1		|Local Variable     			|_t17 	  Scope space: 2 , Offset: 11
+Hided   	|40		|1		|Local Variable     			|_t8 	  Scope space: 2 , Offset: 1
+Visibled	|59		|0		|Global Variable    			|_t27 	  Scope space: 0 , Offset: 31
+Hided   	|42		|1		|Local Variable     			|_t9 	  Scope space: 2 , Offset: 3
+Visibled	|56		|0		|Global Variable    			|_t18 	  Scope space: 0 , Offset: 20
+Visibled	|60		|0		|Global Variable    			|_t28 	  Scope space: 0 , Offset: 32
+Visibled	|56		|0		|Global Variable    			|_t19 	  Scope space: 0 , Offset: 22
+Hided   	|42		|1		|Local Variable     			|i 	  Scope space: 2 , Offset: 2
+Visibled	|61		|0		|Global Variable    			|_t29 	  Scope space: 0 , Offset: 33
+Visibled	|0		|0		|Library Function   			|input 	  Scope space: 0 , Offset: 1
+Visibled	|0		|0		|Library Function   			|totalarguments 	  Scope space: 0 , Offset: 5
+Visibled	|22		|0		|Programmer Function			|Assert 	  Scope space: 0 , Offset: 14
+Hided   	|40		|1		|Local Variable     			|exit 	  Scope space: 2 , Offset: 0
+Visibled	|20		|0		|Global Variable    			|nl 	  Scope space: 0 , Offset: 12
+Visibled	|0		|0		|Library Function   			|sqrt 	  Scope space: 0 , Offset: 9
+Visibled	|27		|0		|Programmer Function			|IsEven 	  Scope space: 0 , Offset: 15
+Visibled	|0		|0		|Library Function   			|argument 	  Scope space: 0 , Offset: 6
+Visibled	|0		|0		|Library Function   			|objecttotalmembers 	  Scope space: 0 , Offset: 3
+Visibled	|39		|0		|Programmer Function			|PrintParityOfNumbers 	  Scope space: 0 , Offset: 18
+Visibled	|35		|0		|Programmer Function			|CanDivideByTen 	  Scope space: 0 , Offset: 17
+7 Strings
+0:  "\n"
+1:  "Assertion"
+2:  " is evan"
+3:  " is odd"
+4:  "cnt\t: "
+5:  "even\t: "
+6:  "odd\t: "
+4 Nums
+0: 2.000000
+1: 0.000000
+2: 10.000000
+3: 1.000000
+6 Userfuncs
+0 3 2 Assert
+1 12 2 IsEven
+2 20 2 IsOdd
+3 28 1 CanDivideByTen
+4 34 12 PrintParityOfNumbers
+5 132 3 Print
+1 Libfuncs
+0: print
+152 code

@@ -166,37 +166,42 @@ expr:        assignexpr        {$$ = $1;}
             | expr PLUS   expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
+                                 tempexpr->type = arithexpr_e;
                                  emit(add , $1 , $3 , tempexpr , -1 , currQuad);
                                  $$ = tempexpr; 
                                  }
             | expr MINUS  expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
+                                 tempexpr->type = arithexpr_e;
                                  emit(sub , $1 , $3 , tempexpr , -1 , currQuad); 
                                  $$ = tempexpr;
                                  }
             | expr MUL    expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
+                                 tempexpr->type = arithexpr_e;
                                  emit(mul , $1 , $3 , tempexpr , -1 , currQuad); 
                                  $$ = tempexpr;
                                  }
             | expr DIVIDE expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
+                                 tempexpr->type = arithexpr_e;
                                  emit(div_code , $1 , $3 , tempexpr , -1 , currQuad); 
                                  $$ = tempexpr;
                                  }
             | expr MODULO expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
+                                 tempexpr->type = arithexpr_e;
                                  emit(mod , $1 , $3 , tempexpr , -1 , currQuad); 
                                  $$ = tempexpr;
                                  }
             | expr GT     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
                                 
@@ -209,7 +214,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr GE     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
                                                                 
@@ -223,7 +228,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr LT     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
 
@@ -237,7 +242,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr LE     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
 
@@ -252,7 +257,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr EQ     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
 
@@ -266,7 +271,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr NE     expr { 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol);  
-                            
+                                 tempexpr->type = arithexpr_e;
                                  tempexpr->truelist = pushin($$->truelist , nextquadlabel()+1);
                                  tempexpr->falselist = pushin($$->falselist , nextquadlabel() + 2);
 
@@ -281,7 +286,7 @@ expr:        assignexpr        {$$ = $1;}
             | expr AND  M  expr {
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol);  
-                            
+                                 tempexpr->type = arithexpr_e;
                                  if(!($1->truelist || $1->falselist)){
                                       $1->truelist = pushin($1->truelist , nextquadlabel() + 1);
                                       $1->falselist = pushin($1->falselist , nextquadlabel() + 2);
@@ -315,7 +320,7 @@ expr:        assignexpr        {$$ = $1;}
 
                                  symbolTable* symbol = newtemp();
                                  expr* tempexpr = lvalue_expr(symbol); 
-
+                                 tempexpr->type = arithexpr_e;
                                  if(!($1->truelist || $1->falselist)){
                                       $1->truelist = pushin($1->truelist , nextquadlabel() + 1);
                                       $1->falselist = pushin($1->falselist , nextquadlabel() + 2);
@@ -1279,6 +1284,17 @@ returnstmt:   RETURN{
                                 error++;
                         }
                     }expr SEMICOLON{
+
+
+                    if(isRelatioNal == 1){
+                        backpatch($3->falselist , nextquadlabel() + 3);
+                        backpatch($3->truelist , nextquadlabel() + 1);
+                        emit(assign , newexpr_constbool(1) , NULL , $3 , -1 , currQuad);
+                        emit(jump   , NULL , NULL , NULL , nextquadlabel() + 3 , currQuad);
+                        emit(assign , newexpr_constbool(0) , NULL , $3 , -1 , currQuad);
+                        isRelatioNal = 0;
+                    }
+
                         if($3->type == newtable_e){
                             symbolTable* temp; //--------------------
                             temp = findNode(top()->name , Cscope - 1);      //-------------------
