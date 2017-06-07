@@ -162,7 +162,6 @@ void execute_tablesetelem (Instruction* instr){
 
     assert(t && (&stack[N-1] >= t && t > &stack[top]));
     assert(i && c);
-    PI(a,++mycounter)
     if(t->type != table_m){
         char errorMessage[100];
         sprintf(errorMessage , "illigal use of type %s as table!",typeStrings[t->type]);

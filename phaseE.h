@@ -19,94 +19,38 @@ char* bool_tostring      (avm_memcell* a){
 }
 char* table_tostring     (avm_memcell* a){
     avm_table_bucket** table = a->data.tableVal->numIndexed;
-    char* s;
+    char* s = (char*)malloc(10000*sizeof(char));
+    char* toRet = (char*)malloc(10000*sizeof(char));
+    strcpy(toRet,"Table\n");
     for(int i=0; i<AVM_TABLE_HASHSIZE; i++){
         avm_table_bucket* temp = table[i];
         while(temp != NULL){
-            switch(temp->key.type){
-                case number_m:{
-                    switch(temp->value.type){
-                        case number_m:{
-                            sprintf(s,"\t%f:%f\n",temp->key.data.numVal, temp->value.data.numVal);
-                            break;
-                        }
-                        case string_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, temp->value.data.strVal);
-                            break;
-                        }
-                        case bool_m:{
-                            sprintf(s,"\t%f:%d\n",temp->key.data.numVal, temp->value.data.boolVal);
-                            break;
-                        }
-                        case table_m:{
-                            s = table_tostring(&(temp->value));
-                            break;
-                        }
-                        case userfunc_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, userFuncs[temp->value.data.funcVal].id);
-                            break;
-                        }
-                        case libfunc_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, temp->value.data.libfuncVal);
-                            break;
-                        }
-                        case nil_m:{
-                            sprintf(s,"\t%f:(null)\n",temp->key.data.numVal);
-                            break;
-                        }
-                        case undef_m:{
-                            sprintf(s,"\t%f:(undefined)\n",temp->key.data.numVal);
-                            break;
-                        }
-                        default: CP(_tableTostring) assert(0);
-                    }   break;
-                }
-                case string_m:{
-                    switch(temp->value.type){
-                        case number_m:{
-                            sprintf(s,"\t%s:%f\n",temp->key.data.strVal, temp->value.data.numVal);
-                            break;
-                        }
-                        case string_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, temp->value.data.strVal);
-                            break;
-                        }
-                        case bool_m:{
-                            sprintf(s,"\t%s:%d\n",temp->key.data.strVal, temp->value.data.boolVal);
-                            break;
-                        }
-                        case table_m:{
-                            s = table_tostring(&(temp->value));
-                            break;
-                        }
-                        case userfunc_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, userFuncs[temp->value.data.funcVal].id);
-                            break;
-                        }
-                        case libfunc_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, temp->value.data.libfuncVal);
-                            break;
-                        }
-                        case nil_m:{
-                            sprintf(s,"\t%s:(null)\n",temp->key.data.strVal);
-                            break;
-                        }
-                        case undef_m:{
-                            sprintf(s,"\t%s:(undefined)\n",temp->key.data.strVal);
-                            break;
-                        }
-                        default: CP(_tableTostring) assert(0);
-                    }
-                }   break;
-                default:    CP(_tableTostring) assert(0);
-            }
+            sprintf(s,"\t%s:%s\n",avm_tostring(&(temp->key)), avm_tostring(&(temp->value)));
+            strcat(toRet,s);
             temp = temp->next;
         }
     }
+    table = a->data.tableVal->strIndexed;
+    for(int i=0; i<AVM_TABLE_HASHSIZE; i++){
+        avm_table_bucket* temp = table[i];
+        while(temp != NULL){
+            sprintf(s,"\t%s:%s\n",avm_tostring(&(temp->key)), avm_tostring(&(temp->value)));
+            strcat(toRet,s);
+            temp = temp->next;
+        }
+    }
+    return toRet;
+}
+char* userfunc_tostring  (avm_memcell* a){
+    char* s;
+    s = strdup(userFuncs[a->data.funcVal].id);
     return s;
 }
-char* userfunc_tostring  (avm_memcell* a){CP(_userfuncToString) assert(0);}
-char* libfunc_tostring   (avm_memcell* a){CP(_libfuncToString)  assert(0);}
+char* libfunc_tostring   (avm_memcell* a){
+    char* s;
+    s = strdup(a->data.libfuncVal);
+    return s;
+}
 char* nil_tostring       (avm_memcell* a){
     return "(null)";
 }

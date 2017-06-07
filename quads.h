@@ -582,17 +582,32 @@ int ultimateLookUpForVariables(expr** lvalue, expr_t type){
         if(found_local){
             if(lookup((*lvalue)->strConst , Cscope) == 1){
                 (*lvalue)->sym = findNode((*lvalue)->strConst , Cscope);
+                if((*lvalue)->sym->table == 1){
+                    (*lvalue)->type = newtable_e;
+                }else if((*lvalue)->sym->funct == 1){
+                    (*lvalue)->type = programfunc_e;
+                }
                 haveAccess = 1;
             }
             found_local = 0;
             break;
         }else if(lookup((*lvalue)->strConst , Cscope - i) == 1){
             (*lvalue)->sym = findNode((*lvalue)->strConst , Cscope - i);
+            if((*lvalue)->sym->table == 1){
+                (*lvalue)->type = newtable_e;
+            }else if((*lvalue)->sym->funct == 1){
+                (*lvalue)->type = programfunc_e;
+            }
             haveAccess = 1;
             break;
         }else if(i == numberofblock){
             if(lookup((*lvalue)->strConst , 0) == 1){
                 (*lvalue)->sym = findNode((*lvalue)->strConst , 0);
+                if((*lvalue)->sym->table == 1){
+                    (*lvalue)->type = newtable_e;
+                }else if((*lvalue)->sym->funct == 1){
+                    (*lvalue)->type = programfunc_e;
+                }
                 haveAccess = 1;
             }
         }

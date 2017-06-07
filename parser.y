@@ -804,9 +804,14 @@ primary:     lvalue {
                         }else{
                             int code = ultimateLookUpForVariables(&$1,var_e);
                             if(code == 0){
-                                insert(0 , $1->strConst , Cscope , yylineno);
-                                $1->sym = findNode($1->strConst , Cscope);
-                                $1->type = var_e;
+                                if(lookup($1->strConst,0)==-1){
+                                    $1->sym = findNode($1->strConst,0);
+                                    $1->type = libraryfunc_e;
+                                }else{
+                                    insert(0 , $1->strConst , Cscope , yylineno);
+                                    $1->sym = findNode($1->strConst , Cscope);
+                                    $1->type = var_e;
+                                }
                             }
                         }
                         $$ = $1;
@@ -876,11 +881,14 @@ tablemake:    LEFTSB elist RIGHTSB
                     expr* t = newexpr(newtable_e);
                     t->sym = newtemp();
                     t->strConst = t->sym->name;
+                    t->sym->table = 1;
                     emit(tablecreate,t,NULL,NULL,-1,currQuad);
                     int i=0;
+                    while(x != NULL){x = x->next; i++;}
+                    x = $2;
                     while(x != NULL){
                         t->table = t;
-                        emit(tablesetelem,t,newexpr_constnum(i++),x,-1,currQuad);
+                        emit(tablesetelem,t,newexpr_constnum(--i),x,-1,currQuad);
                         x = x->next;
                     }
                     $$ = t;
@@ -891,6 +899,7 @@ tablemake:    LEFTSB elist RIGHTSB
                     expr* t = newexpr(newtable_e);
                     t->sym = newtemp();
                     t->strConst = t->sym->name;
+                    t->sym->table = 1;
                     emit(tablecreate,t,NULL,NULL,-1,currQuad);
                     while(x != NULL){
                         t->table = t;
