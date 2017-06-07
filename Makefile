@@ -4,7 +4,7 @@ exe: al
 	./al test.alpha
 
 compiler: VM.c
-	gcc -g VM.c
+	gcc -g VM.c -lm
 
 run: binary.abc compiler
 	./a.out
@@ -33,6 +33,9 @@ clean:
 	rm parser.h
 	rm parser.o
 	rm al
+	rm a.out
+	rm binary.abc
+	rm parser.output
 
 
 debug:lex.yy.c

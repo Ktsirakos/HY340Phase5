@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "colors.h"
-
+#include <ctype.h>
+#include <math.h>
 typedef struct userfunc_t {
     unsigned address;
     unsigned localSize;
@@ -287,7 +288,12 @@ int main(){
                     continue;
                 }else if(strcmp(data , "Globals") == 0){
                     sscanf(line , "%d %s\n" , &globals , data);
-                }
+                }else if(strcmp(data , "magic") == 0){
+                    int number;
+                    char dummy[20];
+                    sscanf(line , "%d %s\n" , &number , dummy);
+                    if(number != 340200501) executionFinished = 1;
+                }   
             }else{
             int opcode , label;
         vmarg result , arg1 , arg2;    

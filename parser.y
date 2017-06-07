@@ -890,11 +890,14 @@ tablemake:    LEFTSB elist RIGHTSB
                     expr* t = newexpr(newtable_e);
                     t->sym = newtemp();
                     t->strConst = t->sym->name;
+                    t->sym->table = 1;
                     emit(tablecreate,t,NULL,NULL,-1,currQuad);
                     int i=0;
+                    while(x != NULL){x = x->next; i++;}
+                    x = $2;
                     while(x != NULL){
                         t->table = t;
-                        emit(tablesetelem,t,newexpr_constnum(i++),x,-1,currQuad);
+                        emit(tablesetelem,t,newexpr_constnum(--i),x,-1,currQuad);
                         x = x->next;
                     }
                     $$ = t;
@@ -905,6 +908,7 @@ tablemake:    LEFTSB elist RIGHTSB
                     expr* t = newexpr(newtable_e);
                     t->sym = newtemp();
                     t->strConst = t->sym->name;
+                    t->sym->table = 1;
                     emit(tablecreate,t,NULL,NULL,-1,currQuad);
                     while(x != NULL){
                         t->table = t;
@@ -1343,7 +1347,6 @@ int main(int argc , char** argv){
         printf(RED"Compile failed" RESET " with %d error "GREEN"NOOB"RESET" (Νατάσα όχι για σένα.)\n",error);
     }else{
         printQuads();
-            ;
         generate();
         printf("----------------------------------------------------------------------------------\n");
         printInst();

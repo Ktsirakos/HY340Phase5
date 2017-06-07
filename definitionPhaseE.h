@@ -203,15 +203,31 @@ memclear_func_t memclearFuncs[] = {
 void avm_memcellclear(avm_memcell*);
 
 void libfunc_print(void);
-void libfunc_typeof(void);
+void libfunc_input(void);
+void libfunc_objectmemberkeys(void);
+void libfunc_objecttotalmember(void);
+void libfunc_objectcopy(void);
 void libfunc_totalarguments(void);
-void libfunc_input();
+void libfunc_argument(void);
+void libfunc_typeof(void);
+void libfunc_strtonum(void);
+void libfunc_sqrt(void);
+void libfunc_cos(void);
+void libfunc_sin(void);
 typedef void (*library_func_t)(void);
 library_func_t libraryFuncs[] = {
     libfunc_print,
-    libfunc_typeof,
+    libfunc_input,
+    libfunc_objectmemberkeys,
+    libfunc_objecttotalmember,
+    libfunc_objectcopy,
     libfunc_totalarguments,
-    libfunc_input
+    libfunc_argument,
+    libfunc_typeof,
+    libfunc_strtonum,
+    libfunc_sqrt,
+    libfunc_cos,
+    libfunc_sin
 };
 
 //void avm_registerlibfunc(char*,library_func_t);
@@ -253,5 +269,6 @@ avm_memcell* avm_getactual(unsigned);
 int mull(int, int);
 int hashCodeString(char*);
 int hashCodeNumber(int);
+double power(double*);
 
 void FunctorCall(avm_table* t); //------------

@@ -547,6 +547,7 @@ void writeBinaryFile(){
     if(fp == NULL){
         printf("Error Opening File\n");
     }else{
+        fprintf(fp , "%d magic\n" , 340200501);
         printArraysTofile(fp);
         printInstructionTofile(fp);
     }

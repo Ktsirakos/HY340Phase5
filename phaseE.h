@@ -19,94 +19,38 @@ char* bool_tostring      (avm_memcell* a){
 }
 char* table_tostring     (avm_memcell* a){
     avm_table_bucket** table = a->data.tableVal->numIndexed;
-    char* s;
+    char* s = (char*)malloc(10000*sizeof(char));
+    char* toRet = (char*)malloc(10000*sizeof(char));
+    strcpy(toRet,"Table\n");
     for(int i=0; i<AVM_TABLE_HASHSIZE; i++){
         avm_table_bucket* temp = table[i];
         while(temp != NULL){
-            switch(temp->key.type){
-                case number_m:{
-                    switch(temp->value.type){
-                        case number_m:{
-                            sprintf(s,"\t%f:%f\n",temp->key.data.numVal, temp->value.data.numVal);
-                            break;
-                        }
-                        case string_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, temp->value.data.strVal);
-                            break;
-                        }
-                        case bool_m:{
-                            sprintf(s,"\t%f:%d\n",temp->key.data.numVal, temp->value.data.boolVal);
-                            break;
-                        }
-                        case table_m:{
-                            s = table_tostring(&(temp->value));
-                            break;
-                        }
-                        case userfunc_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, userFuncs[temp->value.data.funcVal].id);
-                            break;
-                        }
-                        case libfunc_m:{
-                            sprintf(s,"\t%f:%s\n",temp->key.data.numVal, temp->value.data.libfuncVal);
-                            break;
-                        }
-                        case nil_m:{
-                            sprintf(s,"\t%f:(null)\n",temp->key.data.numVal);
-                            break;
-                        }
-                        case undef_m:{
-                            sprintf(s,"\t%f:(undefined)\n",temp->key.data.numVal);
-                            break;
-                        }
-                        default: CP(_tableTostring) assert(0);
-                    }   break;
-                }
-                case string_m:{
-                    switch(temp->value.type){
-                        case number_m:{
-                            sprintf(s,"\t%s:%f\n",temp->key.data.strVal, temp->value.data.numVal);
-                            break;
-                        }
-                        case string_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, temp->value.data.strVal);
-                            break;
-                        }
-                        case bool_m:{
-                            sprintf(s,"\t%s:%d\n",temp->key.data.strVal, temp->value.data.boolVal);
-                            break;
-                        }
-                        case table_m:{
-                            s = table_tostring(&(temp->value));
-                            break;
-                        }
-                        case userfunc_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, userFuncs[temp->value.data.funcVal].id);
-                            break;
-                        }
-                        case libfunc_m:{
-                            sprintf(s,"\t%s:%s\n",temp->key.data.strVal, temp->value.data.libfuncVal);
-                            break;
-                        }
-                        case nil_m:{
-                            sprintf(s,"\t%s:(null)\n",temp->key.data.strVal);
-                            break;
-                        }
-                        case undef_m:{
-                            sprintf(s,"\t%s:(undefined)\n",temp->key.data.strVal);
-                            break;
-                        }
-                        default: CP(_tableTostring) assert(0);
-                    }
-                }   break;
-                default:    CP(_tableTostring) assert(0);
-            }
+            sprintf(s,"\t%s:%s\n",avm_tostring(&(temp->key)), avm_tostring(&(temp->value)));
+            strcat(toRet,s);
             temp = temp->next;
         }
     }
+    table = a->data.tableVal->strIndexed;
+    for(int i=0; i<AVM_TABLE_HASHSIZE; i++){
+        avm_table_bucket* temp = table[i];
+        while(temp != NULL){
+            sprintf(s,"\t%s:%s\n",avm_tostring(&(temp->key)), avm_tostring(&(temp->value)));
+            strcat(toRet,s);
+            temp = temp->next;
+        }
+    }
+    return toRet;
+}
+char* userfunc_tostring  (avm_memcell* a){
+    char* s;
+    s = strdup(userFuncs[a->data.funcVal].id);
     return s;
 }
-char* userfunc_tostring  (avm_memcell* a){CP(_userfuncToString) assert(0);}
-char* libfunc_tostring   (avm_memcell* a){CP(_libfuncToString)  assert(0);}
+char* libfunc_tostring   (avm_memcell* a){
+    char* s;
+    s = strdup(a->data.libfuncVal);
+    return s;
+}
 char* nil_tostring       (avm_memcell* a){
     return "(null)";
 }
@@ -226,6 +170,7 @@ avm_memcell* avm_translate_operand(vmarg* arg, avm_memcell* reg){
 #include "phaseE_calls_funcs.h"
 #include "phaseE_relational.h"
 #include "phaseE_tables_nop.h"
+#include "library_functions.h"
 
 int avm_error (char* yaccProvidedMessage){
     fprintf(stderr , RED"Runtime error" RESET " %s\n" , yaccProvidedMessage);
@@ -278,48 +223,9 @@ void execute_cycle(void){
     }
 }
 
-void libfunc_input(){
-    unsigned n = avm_totalactuals();
-    if(n!=0){
-        char errorMessage[100];
-        sprintf(errorMessage , "0 argument (not %d) expected in 'input'",n);
-        avm_error(errorMessage);
-    }else{
-        avm_memcellclear(&retval);
-        retval.type = number_m;
-        scanf("%lf\n",&(retval.data.numVal));
-    }
-}
-
-void libfunc_typeof(){
-    unsigned n = avm_totalactuals();
-    if(n!=1){
-        char errorMessage[100];
-        sprintf(errorMessage , "one argument (not %d) expected in 'typeof'",n);
-        avm_error(errorMessage);
-    }else{
-        avm_memcellclear(&retval);
-        retval.type = string_m;
-        retval.data.strVal = strdup(typeStrings[avm_getactual(0)->type]);
-    }
-}
-
 void avm_initialize(){
     avm_initstack();
     //avm_registerlibfunc("print",libfunc_print);
     //avm_registerlibfunc("typeof", libfunc_typeof);
 }
-
-void libfunc_totalarguments(){
-    unsigned p_topsp = avm_get_envvalue(topsp + AVM_SAVEDTOPSP_OFFSET);
-    avm_memcellclear(&retval);
-    if(!p_topsp){
-        avm_error("'totalarguments' called outside a function");
-        retval.type = nil_m;
-    }else{
-        retval.type = number_m;
-        retval.data.numVal = avm_get_envvalue(p_topsp + AVM_SAVEDTOPSP_OFFSET);
-    }
-}
-
 //void avm_registerlibfunc(char* id ,library_func_t addr ){}

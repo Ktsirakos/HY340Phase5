@@ -98,21 +98,35 @@ void execute_funcexit(Instruction* unused){
     pc = avm_get_envvalue(topsp + AVM_SAVEDPC_OFFSET);
     topsp = avm_get_envvalue(topsp + AVM_SAVEDTOPSP_OFFSET);
 
-
     while(++oldTop <= top) {
         avm_memcellclear(&stack[oldTop]);
     }
 }
-
 library_func_t avm_getlibraryfunc(char* id){
     if(strcmp(id,"print")==0){
         return libraryFuncs[0];
-    }else if(strcmp(id,"typeof")==0){
-        return libraryFuncs[1];
-    }else if(strcmp(id,"totalarguments")==0){
-        return libraryFuncs[2];
     }else if(strcmp(id,"input")==0){
+        return libraryFuncs[1];
+    }else if(strcmp(id,"objectmemberkeys")==0){
+        return libraryFuncs[2];
+    }else if(strcmp(id,"objecttotalmember")==0){
         return libraryFuncs[3];
+    }else if(strcmp(id,"objectcopy")==0){
+        return libraryFuncs[4];
+    }else if(strcmp(id,"totalarguments")==0){
+        return libraryFuncs[5];
+    }else if(strcmp(id,"argument")==0){
+        return libraryFuncs[6];
+    }else if(strcmp(id,"typeof")==0){
+        return libraryFuncs[7];
+    }else if(strcmp(id,"strtonum")==0){
+        return libraryFuncs[8];
+    }else if(strcmp(id,"sqrt")==0){
+        return libraryFuncs[9];
+    }else if(strcmp(id,"cos")==0){
+        return libraryFuncs[10];
+    }else if(strcmp(id,"sin")==0){
+        return libraryFuncs[11];
     }else{
         char errorMessage[100];
         sprintf(errorMessage , "unsupported lib func '%s' called!" , id);
@@ -148,19 +162,6 @@ unsigned avm_totalactuals(void){
 avm_memcell* avm_getactual(unsigned i){
     assert(i < avm_totalactuals());
     return &stack[topsp + AVM_STACKENV_SIZE + 1 + i];
-}
-
-void libfunc_print(void){
-    unsigned n = avm_totalactuals();
-    unsigned i = 0;
-    char* data;
-    for(i = 0; i < n; i++){
-        char* s = avm_tostring(avm_getactual(i));
-        data = strdup(s);
-        printf("%s" , data);
-        free(data);
-    }
-    //printf("\n");
 }
 
 //void avm_registrerlibfunc(char* id , library_func_t addr);
