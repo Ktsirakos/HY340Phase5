@@ -770,11 +770,20 @@ call:         call LEFTPARENTHESIS elist RIGHTPARENTHESIS
                                     expr* temp = $1;
                                     if($1->sym->table == 1 && $1->sym->type != 4){
                                         $1->type = tableitem_e;
-                                        fordebug();
+                                        $1->index = malloc(sizeof(expr));
+                                        $1->index->strConst = strdup("\"()\"");
+                                        $1->index->type = conststring_e;
                                         expr* temp = $1;
-                                        $1->next = $2->next;
-                                        $2->next = temp;
-                                    
+                                        expr* to2 = $2;
+
+                                        expr* to1 = $1;
+                                        to1->next = NULL;
+                                        
+                                        while(to2->next != NULL){
+                                            to2 = to2->next;
+                                        }
+
+                                        to2->next = to1;
                                     }else{
                                         $1->type = programfunc_e;
                                     }
@@ -804,9 +813,14 @@ primary:     lvalue {
                         }else{
                             int code = ultimateLookUpForVariables(&$1,var_e);
                             if(code == 0){
-                                insert(0 , $1->strConst , Cscope , yylineno);
-                                $1->sym = findNode($1->strConst , Cscope);
-                                $1->type = var_e;
+                                if(lookup($1->strConst , 0) == -1){
+                                    $1->sym = findNode($1->strConst , 0);
+                                    $1->type = libraryfunc_e;
+                                }else{
+                                    insert(0 , $1->strConst , Cscope , yylineno);
+                                    $1->sym = findNode($1->strConst , Cscope);
+                                    $1->type = var_e;
+                                }
                             }
                         }
                         $$ = $1;

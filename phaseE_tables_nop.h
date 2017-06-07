@@ -7,7 +7,7 @@ void avm_tablebucketsinit(avm_table_bucket** p){
 }
 
 avm_table_bucket* insertToBucket(avm_memcell* toInsert , avm_memcell* index , avm_table_bucket* toWhere){
-        assert(index->type == number_m || index->type == string_m);
+        assert(index->type == number_m || index->type == string_m || index->type == libfunc_m);
         avm_table_bucket* newlist = toWhere;
         avm_table_bucket* node = (avm_table_bucket*)calloc(1,sizeof(avm_table_bucket));
 
@@ -27,6 +27,11 @@ avm_table_bucket* insertToBucket(avm_memcell* toInsert , avm_memcell* index , av
                 }
             }else if(index->type == string_m){
                 if(strcmp(newlist->key.data.strVal, index->data.strVal) == 0){
+                    avm_assign(&(newlist->value), toInsert);
+                    return toWhere;
+                }
+            }else if(index->type == libfunc_m){
+                if(strcmp(newlist->key.data.libfuncVal, index->data.libfuncVal) == 0){
                     avm_assign(&(newlist->value), toInsert);
                     return toWhere;
                 }
@@ -87,7 +92,7 @@ void execute_newtable (Instruction* instr){
 }
 
 avm_memcell* avm_tablegetelem(avm_table* table, avm_memcell* index){
-    assert(index->type == number_m || index->type == string_m);
+    assert(index->type == number_m || index->type == string_m || index->type == libfunc_m);
     avm_memcell* content = (avm_memcell*)calloc(1,sizeof(avm_memcell));
     avm_table_bucket* temp;
     int hashCode;
@@ -109,11 +114,23 @@ avm_memcell* avm_tablegetelem(avm_table* table, avm_memcell* index){
                 break;
             }   temp =temp->next;
         }
+    }else if(index->type == libfunc_m){
+        hashCode = hashCodeNumber(index->data.libfuncVal);
+        temp = table->libIndexed[hashCode];
+        while(temp != NULL){
+            if(temp->key.data.libfuncVal == index->data.libfuncVal){
+                avm_assign(content,&(temp->value));
+                break;
+            }   temp =temp->next;
+        }
     }
     return content;
 }
+
+
 void avm_tablesetelem(avm_table* table, avm_memcell* index, avm_memcell* content){
-    assert(index->type == number_m || index->type == string_m);
+    
+    assert(index->type == number_m || index->type == string_m || index->type == libfunc_m);
     int hashedcode;
 
     if(index->type == string_m){
@@ -122,6 +139,9 @@ void avm_tablesetelem(avm_table* table, avm_memcell* index, avm_memcell* content
     }else if(index->type == number_m){
         hashedcode = hashCodeNumber(index->data.numVal);
         table->numIndexed[hashedcode] = insertToBucket(content , index , table->numIndexed[hashedcode]);
+    }else if(index->type == libfunc_m){
+        hashedcode = hashCodeNumber(index->data.libfuncVal);
+        table->libIndexed[hashedcode] = insertToBucket(content , index , table->libIndexed[hashedcode]);
     }
     return;
 }
