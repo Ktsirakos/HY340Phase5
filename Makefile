@@ -33,6 +33,9 @@ clean:
 	rm parser.h
 	rm parser.o
 	rm al
+	rm a.out
+	rm binary.abc
+	rm parser.output
 
 
 debug:lex.yy.c

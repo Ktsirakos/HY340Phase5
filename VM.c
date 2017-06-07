@@ -290,7 +290,8 @@ int main(){
                     sscanf(line , "%d %s\n" , &globals , data);
                 }else if(strcmp(data , "magic") == 0){
                     int number;
-                    sscanf(line , "%d %s\n" , &number);
+                    char dummy[20];
+                    sscanf(line , "%d %s\n" , &number , dummy);
                     if(number != 340200501) executionFinished = 1;
                 }   
             }else{
