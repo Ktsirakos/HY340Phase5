@@ -288,7 +288,11 @@ int main(){
                     continue;
                 }else if(strcmp(data , "Globals") == 0){
                     sscanf(line , "%d %s\n" , &globals , data);
-                }
+                }else if(strcmp(data , "magic") == 0){
+                    int number;
+                    sscanf(line , "%d %s\n" , &number);
+                    if(number != 340200501) executionFinished = 1;
+                }   
             }else{
             int opcode , label;
         vmarg result , arg1 , arg2;    
