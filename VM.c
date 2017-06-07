@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "colors.h"
 #include <ctype.h>
-
+#include <math.h>
 typedef struct userfunc_t {
     unsigned address;
     unsigned localSize;

@@ -197,8 +197,8 @@ void libfunc_sqrt(){
             data[i] = temp;
         }
 
-        retVal.data.numVal = sqrt(data[i]);
-        retVal.type = number_m;
+        retval.data.numVal = sqrt(data[i]);
+        retval.type = number_m;
     }
 }
 
