@@ -1102,7 +1102,7 @@ YY_RULE_SETUP
 case 48:
 YY_RULE_SETUP
 #line 126 "in.l"
-{ yylval.realvalue = atoi(yytext); return REAL;}
+{ yylval.realvalue = (float)atoll(yytext); return REAL;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP

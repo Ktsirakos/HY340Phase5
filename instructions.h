@@ -449,11 +449,8 @@ void generate_RETURN            (quad* q){
     Instruction *temp = initialize_Instruction();
     q->taddress = currInst;
     temp->opcode  = assign_v;
-    CP(_1)
     temp->result->type = retval_a;
-    CP(_2)
     make_operand(q->arg1,temp->arg1);
-    CP(_3)
     temp->srcLine = currInst;
     temp->label = q->label;
     emit_instruction(temp);

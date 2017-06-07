@@ -568,7 +568,6 @@ ValuesStack* append(ValuesStack* list, int val){
 int ultimateLookUpForVariables(expr** lvalue, expr_t type){                                        
     int numberofblock = 0;
     int i;
-    symbolTable* symTemp = NULL;
     functionStack* p = stackF;
     while(p != NULL){
         if(strcmp(p->name , "_$block") == 0){
@@ -582,29 +581,28 @@ int ultimateLookUpForVariables(expr** lvalue, expr_t type){
     for(i = 0; i <= numberofblock; i++){
         if(found_local){
             if(lookup((*lvalue)->strConst , Cscope) == 1){
-                symTemp = findNode((*lvalue)->strConst , Cscope);
+                (*lvalue)->sym = findNode((*lvalue)->strConst , Cscope);
                 haveAccess = 1;
             }
             found_local = 0;
             break;
         }else if(lookup((*lvalue)->strConst , Cscope - i) == 1){
-            symTemp = findNode((*lvalue)->strConst , Cscope - i);
+            (*lvalue)->sym = findNode((*lvalue)->strConst , Cscope - i);
             haveAccess = 1;
             break;
         }else if(i == numberofblock){
             if(lookup((*lvalue)->strConst , 0) == 1){
-                symTemp = findNode((*lvalue)->strConst , 0);
+                (*lvalue)->sym = findNode((*lvalue)->strConst , 0);
                 haveAccess = 1;
             }
         }
     }
     if(haveAccess){
-        if(symTemp->funct == 1){
+        if((*lvalue)->sym->funct == 1){
             printf(RED"ERROR" RESET ": programm function %s used as an l-value\n" , (*lvalue)->strConst);
             error++;
             return -1;
-        }else if(&(*lvalue)->sym != &symTemp){
-            (*lvalue)->sym = symTemp;
+        }else if(&(*lvalue)->sym == NULL){
             (*lvalue)->type = type;
             return 1;
         }

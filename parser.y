@@ -4,7 +4,7 @@
     #include <ctype.h>
 
     #define CP(x) printf("Checkpoint %s\n" , #x);
-    #define PI(a,x) printf("Variable: %d\n" , x);
+    #define PI(a,x) printf("Variable: %f\n" , x);
 
     int yyerror (char* yaccProvidedMessage);
     int yylex(void);
@@ -491,13 +491,18 @@ assignexpr:   lvalue ASSIGN  {
                                 }
                                 if(!found_error){
                                     if(globalscope == 1){
-                                        if(lookup($1->strConst , 0) == 0){
-                                            printf(RED"ERROR" RESET ": %s undeclared at global scope\n" , $1->strConst);
-                                            error++;
-                                        }else{
-                                            $1->sym = findNode($1->strConst,0);
-                                            globalscope = 0;
+                                       if(lookup($1->strConst , 0) == 0){
+                                           printf(RED"ERROR" RESET ": %s undeclared at global scope\n" , $1->strConst);
+                                               error++;
+                                       }else if(lookup($1->strConst , 0) == 1){
+                                            if(findNode($1->strConst , 0)->funct == 1){
+                                                printf(RED"ERROR" RESET ": programm function %s used as an l-value\n" , $1->strConst);
+                                                error++;
+                                            }else{
+                                                $1->sym = findNode($1->strConst,0);
+                                            }
                                         }
+                                        globalscope = 0;
                                     }else{
                                         int code = ultimateLookUpForVariables(&$1,var_e);
                                         if(code == 0){
@@ -607,9 +612,9 @@ tableitem:       lvalue DOT ID      {
                                      error++;
                                  }else{
                                     $1->sym = findNode($1->strConst,0);
-                                    globalscope = 0;
                                  }
                             }   
+                            globalscope = 0;
                         }else{
                             int code = ultimateLookUpForVariables(&$1,newtable_e);
                             if(code == 0){
@@ -641,11 +646,11 @@ tableitem:       lvalue DOT ID      {
                                  if(findNode($1->strConst , 0)->funct == 1){
                                      printf(RED"ERROR" RESET ": programm function %s used as an l-value\n" , $1->strConst);
                                      error++;
+                                 }else{
+                                    $1->sym = findNode($1->strConst,0);
                                  }
-                            }else{
-                                 $1->sym = findNode($1->strConst,0);
-                                 globalscope = 0;
                             }
+                            globalscope = 0;
                         }else{
                             int code = ultimateLookUpForVariables(&$1,newtable_e);
                             if(code == 0){
@@ -764,7 +769,6 @@ call:         call LEFTPARENTHESIS elist RIGHTPARENTHESIS
                                 if($1->type != libraryfunc_e){
                                     expr* temp = $1;
                                     if($1->sym->table == 1 && $1->sym->type != 4){
-                                        printf("is newtable\n");
                                         $1->type = tableitem_e;
                                         fordebug();
                                         expr* temp = $1;
@@ -794,8 +798,8 @@ primary:     lvalue {
                                 error++;
                             }else{
                                 $1->sym = findNode($1->strConst,0);
-                                globalscope = 0;
                             }
+                            globalscope = 0;
                         }else{
                             int code = ultimateLookUpForVariables(&$1,var_e);
                             if(code == 0){
