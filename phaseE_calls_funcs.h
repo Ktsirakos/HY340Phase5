@@ -98,21 +98,35 @@ void execute_funcexit(Instruction* unused){
     pc = avm_get_envvalue(topsp + AVM_SAVEDPC_OFFSET);
     topsp = avm_get_envvalue(topsp + AVM_SAVEDTOPSP_OFFSET);
 
-
     while(++oldTop <= top) {
         avm_memcellclear(&stack[oldTop]);
     }
 }
-
 library_func_t avm_getlibraryfunc(char* id){
     if(strcmp(id,"print")==0){
         return libraryFuncs[0];
-    }else if(strcmp(id,"typeof")==0){
-        return libraryFuncs[1];
-    }else if(strcmp(id,"totalarguments")==0){
-        return libraryFuncs[2];
     }else if(strcmp(id,"input")==0){
+        return libraryFuncs[1];
+    }else if(strcmp(id,"objectmemberkeys")==0){
+        return libraryFuncs[2];
+    }else if(strcmp(id,"objecttotalmember")==0){
         return libraryFuncs[3];
+    }else if(strcmp(id,"objectcopy")==0){
+        return libraryFuncs[4];
+    }else if(strcmp(id,"totalarguments")==0){
+        return libraryFuncs[5];
+    }else if(strcmp(id,"argument")==0){
+        return libraryFuncs[6];
+    }else if(strcmp(id,"typeof")==0){
+        return libraryFuncs[7];
+    }else if(strcmp(id,"strtonum")==0){
+        return libraryFuncs[8];
+    }else if(strcmp(id,"sqrt")==0){
+        return libraryFuncs[9];
+    }else if(strcmp(id,"cos")==0){
+        return libraryFuncs[10];
+    }else if(strcmp(id,"sin")==0){
+        return libraryFuncs[11];
     }else{
         char errorMessage[100];
         sprintf(errorMessage , "unsupported lib func '%s' called!" , id);
@@ -150,6 +164,42 @@ avm_memcell* avm_getactual(unsigned i){
     return &stack[topsp + AVM_STACKENV_SIZE + 1 + i];
 }
 
+double Power(double* data){
+    if(data == NULL) return 0;
+    if(*data == 0) return 0;
+    if(data[1] == 0) return data[0];
+    double mul = 1;
+    for(int i=0; i< data[1]; i++){
+        mul = mul * data[0];
+    }
+    data[1] = mul;
+    return Power(&data[1]);
+}
+
+void libfunc_sqrt(){
+    unsigned n = avm_totalactuals();
+    unsigned i = 0;
+    double* data = (double*)malloc(n*sizeof(double));
+    if(n<1){
+        avm_error("0 arguments in sqrt!");
+    }else{
+        for(i = 0; i < n; i++){
+            char* s = avm_tostring(avm_getactual(i));
+            for(int j=0; s[j]!='\0'; j++){
+                if(!isdigit(s[j]) && s[j] != '.'){
+                    char errorMessage[100];
+                    sprintf(errorMessage,"argument %d in sqrt is not number!",i);
+                    avm_error(errorMessage);
+                }
+            }
+            printf("%s\n",s);
+            sscanf(s,"%lf", &(data[i]));
+            PI(a,data[i])
+        }
+        Power(data);
+    }
+}
+
 void libfunc_print(void){
     unsigned n = avm_totalactuals();
     unsigned i = 0;
@@ -163,6 +213,13 @@ void libfunc_print(void){
     //printf("\n");
 }
 
+void libfunc_objectmemberkeys(void){}
+void libfunc_objecttotalmember(void){}
+void libfunc_objectcopy(void){}
+void libfunc_argument(void){}
+void libfunc_strtonum(void){}
+void libfunc_cos(void){}
+void libfunc_sin(void){}
 //void avm_registrerlibfunc(char* id , library_func_t addr);
 
 

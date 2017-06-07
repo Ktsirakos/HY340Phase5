@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "colors.h"
+#include <ctype.h>
 
 typedef struct userfunc_t {
     unsigned address;
