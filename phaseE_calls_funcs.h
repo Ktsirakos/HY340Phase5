@@ -180,8 +180,8 @@ void libfunc_sqrt(){
     unsigned n = avm_totalactuals();
     unsigned i = 0;
     double* data = (double*)malloc(n*sizeof(double));
-    if(n<1){
-        avm_error("0 arguments in sqrt!");
+    if(n != 1){
+        avm_error("more arguments needed in sqrt!");
     }else{
         for(i = 0; i < n; i++){
             char* s = avm_tostring(avm_getactual(i));
@@ -196,7 +196,9 @@ void libfunc_sqrt(){
             sscanf(s,"%lf", &temp);
             data[i] = temp;
         }
-        Power(data);
+
+        retval.data.numVal = sqrt(data[i]);
+        retval.type = number_m;
     }
 }
 

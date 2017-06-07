@@ -4,7 +4,7 @@ exe: al
 	./al test.alpha
 
 compiler: VM.c
-	gcc -g VM.c
+	gcc -g VM.c -lm
 
 run: binary.abc compiler
 	./a.out

@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 print(cos(180),"\n");
+=======
+i = 2;
+double = sqrt(4);
+print(double,"\n");
+>>>>>>> lid
