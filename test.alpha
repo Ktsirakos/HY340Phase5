@@ -1,15 +1,31 @@
-function add(c){
-	return [ {"c" : c} , {"()" : (function second(t){print("Function called\n"); return t["c"];})}];
-}
+function f() {}
+tKey = [3];
+
+t = [ 
+	 { print : "print libFunc" }, 
+	 { typeof : "typeof libFunc" }, 
+	//{ f : "f userFunc" }, 
+	//{ tKey : "tKey table" }, 
+	{ true : "Trueeeeee" }, 
+	{ false : "Falseee" },
+	{ "lala" : "lala string key" } 
+];
+
+print("must print >print libFunc<: ", t[print], "\n"); // print libFunc
+//print("must print >tKey table<: ", t[tKey], "\n"); // tKey table
+
+//t2 = tKey;
+//print("must print >tKey table<: ", t[t2], "\n"); // tKey table
+
+//t2 = [3];
+//print("must print nil or run time error: ", t[t2], "\n");
 
 
-c10 = add(10);
-c20 = add(20);
+print("must print Trueeeee: ", t[true], t[false] ,  "\n"); // Trueeee
 
-print(c10(),"\n");
-
-
-//------------------------------
+//func = f;
+//print("must print >f userFunc<: ", t[f], "\n"); // f userFunc
+//print("must print >f userFunc<: ", t[func], "\n"); // f userFunc
 
 func = [
 	{"()" : (function (t, msg){
@@ -19,4 +35,4 @@ func = [
 	{"class": "Functor"}
 ];
 
-func("kostas");
+func("LALA\n");
