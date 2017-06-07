@@ -598,7 +598,7 @@ int ultimateLookUpForVariables(expr** lvalue, expr_t type){
         }
     }
     if(haveAccess){
-        if((*lvalue)->sym->funct == 1){
+        if((*lvalue)->sym->funct == 1 && !isIndexed){
             printf(RED"ERROR" RESET ": programm function %s used as an l-value\n" , (*lvalue)->strConst);
             error++;
             return -1;

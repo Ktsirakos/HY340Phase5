@@ -85,3 +85,4 @@ int isFuncBlock = 0;
 int isRelatioNal = 0;
 int functionLocalsToSym;
 int funcJumpToPatch = 0;
+int isIndexed = 0;
