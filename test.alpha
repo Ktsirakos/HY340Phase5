@@ -1,124 +1,99 @@
+/*
+proper output: 
 
-N=8;
-row = [];
-col = [];
-diag1 = [];
-diag2 = [];
+Book Title: Hitchhicker's Guide to the Galaxy
+        Section :Section #1
+                paragraph 1... blah
+                paragraph 2... blah
+        Section :Section #2
+        Section :Section #3
 
-function print_board() {
-	for (i=0; i < N; ++i)
-	{
-		for (j=0; j < N; ++j)
-		{
-			if (col[i] == j)
-				print(" Q");
-			else
-				print(" .");
+*/
+
+function Book(title) {
+    return [
+		{ "title" : title },
+		{ "sections" : [] },
+
+		{ "AppendSection" :
+			(function(book, section) {
+				book.sections[objecttotalmembers(book.sections)] = section;
+			})
+		},
+
+        { "Accept" :
+        	(function(book, visitor) {
+        		visitor.VisitBook(book);
+
+        		for (i=0; i < objecttotalmembers(book.sections); ++i)
+        			book.sections[i].Accept(book.sections[i], visitor);
+        	})
+        }
+    ];
+}
+
+function Section(title) {
+    return [
+        { "title" : title },
+        { "paragraphs" : [] },
+
+		{ "AppendParagraph" :
+			(function(section, paragraph) {
+				section.paragraphs[objecttotalmembers(section.paragraphs)]
+					= paragraph;
+			})
+		},
+
+        { "Accept" :
+        	(function(section, visitor) {
+        		visitor.VisitSection(section);
+
+        		for (i=0; i < objecttotalmembers(section.paragraphs); ++i)
+        			section.paragraphs[i].Accept(section.paragraphs[i], visitor);
+        	})
+        }
+    ];
+}
+
+function Paragraph(text) {
+    return [
+        { "content" : text },
+
+        { "Accept" :
+        	(function(paragraph, visitor) {
+        		visitor.VisitParagraph(paragraph);
+        	})
+        }
+    ];
+}
+
+book = Book("Hitchhicker's Guide to the Galaxy");
+book..AppendSection(Section("Section #1"));
+book..AppendSection(Section("Section #2"));
+book..AppendSection(Section("Section #3"));
+
+book.sections[0]..AppendParagraph(Paragraph("paragraph 1... blah"));
+book.sections[0]..AppendParagraph(Paragraph("paragraph 2... blah"));
+
+
+function PrintVisitor() {
+	return [
+		{ "VisitBook" :
+			(function(book) {
+				print("Book Title: ", book.title, "\n");
+			})
+		},
+		{ "VisitSection" :
+			(function(section) {
+				print("\tSection :", section.title, "\n");
+			})
+		},
+		{ "VisitParagraph" :
+			(function(paragraph) {
+				print("\t\t", paragraph.content, "\n");
+			})
 		}
-		print("\n");
-	}
-	print("\n");
-
-	return 0;
+	];
 }
 
-function try(c) {
-	if (c == N)
-		print_board();
-	else
-	{
-		for (r=0; r < N; ++r)
-		{
-			if ((row[r] == 0) and (diag1[r+c] == 0) and (diag2[r+7-c] == 0))
-			{
-				row[r]=1;
-				diag1[r+c]=1;
-				diag2[r+7-c]=1;
-				
-				col[c]=r;
-				try(c+1);
-				
-				row[r]=0;
-				diag1[r+c]=0;
-				diag2[r+7-c]=0;
-			}
-		}
-	}
-}
-
-
-for (i=0; i < N; ++i)
-{
-	row[i]=0;
-	col[i]=0;
-}
-
-for (i=0; i < 2*N-1; ++i)
-{
-	diag1[i]=0;
-	diag2[i]=0;
-}
-
-try(0);
-
-N=8;
-row = [];
-col = [];
-diag1 = [];
-diag2 = [];
-
-function print_board() {
-	for (i=0; i < N; ++i)
-	{
-		for (j=0; j < N; ++j)
-		{
-			if (col[i] == j)
-				print(" Q");
-			else
-				print(" .");
-		}
-		print("\n");
-	}
-	print("\n");
-
-	return 0;
-}
-
-function try(c) {
-	if (c == N)
-		print_board();
-	else
-	{
-		for (r=0; r < N; ++r)
-		{
-			if ((row[r] == 0) and (diag1[r+c] == 0) and (diag2[r+7-c] == 0))
-			{
-				row[r]=1;
-				diag1[r+c]=1;
-				diag2[r+7-c]=1;
-				
-				col[c]=r;
-				try(c+1);
-				
-				row[r]=0;
-				diag1[r+c]=0;
-				diag2[r+7-c]=0;
-			}
-		}
-	}
-}
-
-
-for (i=0; i < N; ++i)
-{
-	row[i]=0;
-	col[i]=0;
-}
-
-for (i=0; i < 2*N-1; ++i)
-{
-	diag1[i]=0;
-	diag2[i]=0;
-}
-
-try(0);
+book.Accept(book, PrintVisitor());
