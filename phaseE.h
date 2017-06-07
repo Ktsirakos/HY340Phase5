@@ -170,6 +170,7 @@ avm_memcell* avm_translate_operand(vmarg* arg, avm_memcell* reg){
 #include "phaseE_calls_funcs.h"
 #include "phaseE_relational.h"
 #include "phaseE_tables_nop.h"
+#include "library_functions.h"
 
 int avm_error (char* yaccProvidedMessage){
     fprintf(stderr , RED"Runtime error" RESET " %s\n" , yaccProvidedMessage);
@@ -222,48 +223,9 @@ void execute_cycle(void){
     }
 }
 
-void libfunc_input(){
-    unsigned n = avm_totalactuals();
-    if(n!=0){
-        char errorMessage[100];
-        sprintf(errorMessage , "0 argument (not %d) expected in 'input'",n);
-        avm_error(errorMessage);
-    }else{
-        avm_memcellclear(&retval);
-        retval.type = number_m;
-        scanf("%lf\n",&(retval.data.numVal));
-    }
-}
-
-void libfunc_typeof(){
-    unsigned n = avm_totalactuals();
-    if(n!=1){
-        char errorMessage[100];
-        sprintf(errorMessage , "one argument (not %d) expected in 'typeof'",n);
-        avm_error(errorMessage);
-    }else{
-        avm_memcellclear(&retval);
-        retval.type = string_m;
-        retval.data.strVal = strdup(typeStrings[avm_getactual(0)->type]);
-    }
-}
-
 void avm_initialize(){
     avm_initstack();
     //avm_registerlibfunc("print",libfunc_print);
     //avm_registerlibfunc("typeof", libfunc_typeof);
 }
-
-void libfunc_totalarguments(){
-    unsigned p_topsp = avm_get_envvalue(topsp + AVM_SAVEDTOPSP_OFFSET);
-    avm_memcellclear(&retval);
-    if(!p_topsp){
-        avm_error("'totalarguments' called outside a function");
-        retval.type = nil_m;
-    }else{
-        retval.type = number_m;
-        retval.data.numVal = avm_get_envvalue(p_topsp + AVM_SAVEDTOPSP_OFFSET);
-    }
-}
-
 //void avm_registerlibfunc(char* id ,library_func_t addr ){}
