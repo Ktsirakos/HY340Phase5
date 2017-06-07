@@ -1,3 +1,1 @@
-i = 2;
-double = sqrt(2,2);
-print(double,"\n");
+print(cos(180),"\n");

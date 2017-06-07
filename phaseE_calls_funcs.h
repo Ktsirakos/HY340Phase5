@@ -192,9 +192,9 @@ void libfunc_sqrt(){
                     avm_error(errorMessage);
                 }
             }
-            printf("%s\n",s);
-            sscanf(s,"%lf", &(data[i]));
-            PI(a,data[i])
+            double temp;
+            sscanf(s,"%lf", &temp);
+            data[i] = temp;
         }
         Power(data);
     }
@@ -218,8 +218,48 @@ void libfunc_objecttotalmember(void){}
 void libfunc_objectcopy(void){}
 void libfunc_argument(void){}
 void libfunc_strtonum(void){}
-void libfunc_cos(void){}
-void libfunc_sin(void){}
+void libfunc_cos(void){
+    unsigned n = avm_totalactuals();
+    unsigned i = 0;
+    double data;
+    if(n!=1){
+        avm_error("1 argument must be in cos!");
+    }else{
+        char* s = avm_tostring(avm_getactual(i));
+        for(int j=0; s[j]!='\0'; j++){
+            if(!isdigit(s[j]) && s[j] != '.'){
+                char errorMessage[100];
+                sprintf(errorMessage,"argument %d in sqrt is not number!",i);
+                avm_error(errorMessage);
+            }
+        }
+        sscanf(s,"%lf", &data);
+        avm_memcellclear(&retval);
+        retval.data.numVal = cos(data);
+        retval.type = number_m;
+    }
+}
+void libfunc_sin(void){
+    unsigned n = avm_totalactuals();
+    unsigned i = 0;
+    double data;
+    if(n!=1){
+        avm_error("1 argument must be in sin!");
+    }else{
+        char* s = avm_tostring(avm_getactual(i));
+        for(int j=0; s[j]!='\0'; j++){
+            if(!isdigit(s[j]) && s[j] != '.'){
+                char errorMessage[100];
+                sprintf(errorMessage,"argument %d in sqrt is not number!",i);
+                avm_error(errorMessage);
+            }
+        }
+        sscanf(s,"%lf", &data);
+        avm_memcellclear(&retval);
+        retval.data.numVal = sin(data);
+        retval.type = number_m;
+    }
+}
 //void avm_registrerlibfunc(char* id , library_func_t addr);
 
 
