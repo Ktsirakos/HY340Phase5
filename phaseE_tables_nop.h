@@ -119,7 +119,7 @@ avm_memcell* avm_tablegetelem(avm_table* table, avm_memcell* index){
             }   temp =temp->next;
         }
     }else if(index->type == libfunc_m){
-        hashCode = hashCodeNumber(index->data.libfuncVal);
+        hashCode = hashCodeString(index->data.libfuncVal);
         temp = table->libIndexed[hashCode];
         while(temp != NULL){
             if(temp->key.data.libfuncVal == index->data.libfuncVal){
@@ -147,7 +147,7 @@ void avm_tablesetelem(avm_table* table, avm_memcell* index, avm_memcell* content
         hashedcode = hashCodeNumber(index->data.numVal);
         table->numIndexed[hashedcode] = insertToBucket(content , index , table->numIndexed[hashedcode]);
     }else if(index->type == libfunc_m){
-        hashedcode = hashCodeNumber(index->data.libfuncVal);
+        hashedcode = hashCodeString(index->data.libfuncVal);
         table->libIndexed[hashedcode] = insertToBucket(content , index , table->libIndexed[hashedcode]);
     }else if(index->type == bool_m){
         table->boolIndexed[index->data.boolVal] = insertToBucket(content , index , table->libIndexed[index->data.boolVal]);

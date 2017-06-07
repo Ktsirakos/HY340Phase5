@@ -1,38 +1,62 @@
-function f() {}
-tKey = [3];
 
-t = [ 
-	 { print : "print libFunc" }, 
-	 { typeof : "typeof libFunc" }, 
-	 //{ f : "f userFunc" }, 
-	//{ tKey : "tKey table" }, 
-	{ true : "Trueeeeee" }, 
-	{ false : "Falseee" },
-	{ "lala" : "lala string key" } 
-];
+N=8;
+row = [];
+col = [];
+diag1 = [];
+diag2 = [];
 
-print("must print >print libFunc<: ", t[print], "\n"); // print libFunc
-//print("must print >tKey table<: ", t[tKey], "\n"); // tKey table
+function print_board() {
+	for (i=0; i < N; ++i)
+	{
+		for (j=0; j < N; ++j)
+		{
+			if (col[i] == j)
+				print(" Q");
+			else
+				print(" .");
+		}
+		print("\n");
+	}
+	print("\n");
 
-//t2 = tKey;
-//print("must print >tKey table<: ", t[t2], "\n"); // tKey table
+	return 0;
+}
 
-//t2 = [3];
-//print("must print nil or run time error: ", t[t2], "\n");
+function try(c) {
+	if (c == N)
+		print_board();
+	else
+	{
+		for (r=0; r < N; ++r)
+		{
+			if ((row[r] == 0) and (diag1[r+c] == 0) and (diag2[r+7-c] == 0))
+			{
+				row[r]=1;
+				diag1[r+c]=1;
+				diag2[r+7-c]=1;
+				
+				col[c]=r;
+				try(c+1);
+				
+				row[r]=0;
+				diag1[r+c]=0;
+				diag2[r+7-c]=0;
+			}
+		}
+	}
+}
 
 
-print("must print Trueeeee: ", t[true], t[false] ,  "\n"); // Trueeee
+for (i=0; i < N; ++i)
+{
+	row[i]=0;
+	col[i]=0;
+}
 
-//func = f;
-//print("must print >f userFunc<: ", t[f], "\n"); // f userFunc
-//print("must print >f userFunc<: ", t[func], "\n"); // f userFunc
+for (i=0; i < 2*N-1; ++i)
+{
+	diag1[i]=0;
+	diag2[i]=0;
+}
 
-func = [
-	{"()" : (function (t, msg){
-		print("Call ", t.class, "'s print\n");
-		print(msg);
-	})},
-	{"class": "Functor"}
-];
-
-func("LALA\n");
+try(0);
