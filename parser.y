@@ -931,12 +931,13 @@ indexed:    indexedelem
             ;
 
               
-indexedelem:  LEFTB expr DOUBLEDOT {rightSideValue = 1;} expr RIGHTB
+indexedelem:  LEFTB {isIndexed = 1;} expr DOUBLEDOT {rightSideValue = 1;} expr RIGHTB
                 {
                     rightSideValue = 0;
-                    $5->index = $2;
-                    $5->next = NULL;
-                    $$ = $5;
+                    $6->index = $3;
+                    $6->next = NULL;
+                    $$ = $6;
+                    isIndexed = 0;
                 }
             ;
 /*
