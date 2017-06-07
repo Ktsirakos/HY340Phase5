@@ -123,7 +123,7 @@ undefined      .
 {commentLine}  { }
 {commentMulty} { BEGIN(COMMENT); }
 {integer}      { yylval.intvalue = atoi(yytext);  return INTEGER;}
-{real}         { yylval.realvalue = (float)atoll(yytext); return REAL;}
+{real}         { sscanf(yytext, "%lf", &yylval.realvalue); return REAL;}
 {undefined}    { return UNDEFINED_CHAR;}
 
 <COMMENT>"*/" { BEGIN(INITIAL); }

@@ -779,6 +779,7 @@ call:         call LEFTPARENTHESIS elist RIGHTPARENTHESIS
                                         $1->type = programfunc_e;
                                     }
                                 }
+                                $1 = emit_iftableitem($1);
                                 $$ = make_call($1, $2->next);
                             }
             | LEFTPARENTHESIS funcdef RIGHTPARENTHESIS LEFTPARENTHESIS elist RIGHTPARENTHESIS
