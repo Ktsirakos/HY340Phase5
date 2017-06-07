@@ -1337,7 +1337,6 @@ int main(int argc , char** argv){
         printf(RED"Compile failed" RESET " with %d error "GREEN"NOOB"RESET" (Νατάσα όχι για σένα.)\n",error);
     }else{
         printQuads();
-            ;
         generate();
         printf("----------------------------------------------------------------------------------\n");
         printInst();
